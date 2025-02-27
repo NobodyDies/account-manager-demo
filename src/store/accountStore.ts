@@ -5,10 +5,12 @@ export interface LabelItem {
   text: string
 }
 
+export type Types = 'LDAP' | 'Локальная'
+
 export interface Account {
   id: string
   labels: LabelItem[]
-  type: 'LDAP' | 'Локальная'
+  type: Types
   login: string
   password: string | null
 }
@@ -42,7 +44,6 @@ export const useAccountStore = defineStore('accountStore', () => {
       password: '',
     }
     accounts.value.push(newAccount)
-    saveToStorage()
   }
 
   function removeAccount(id: string) {
@@ -50,10 +51,19 @@ export const useAccountStore = defineStore('accountStore', () => {
     saveToStorage()
   }
 
+  function updateAccount(updated: Account) {
+    const index = accounts.value.findIndex(acc => acc.id === updated.id)
+    if (index !== -1) {
+      accounts.value[index] = { ...updated }
+      saveToStorage()
+    }
+  }
+
   return {
     accounts,
     initFromStorage,
     addAccount,
     removeAccount,
+    updateAccount,
   }
 })

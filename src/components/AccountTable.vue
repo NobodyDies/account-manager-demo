@@ -18,27 +18,29 @@
       <strong>Подсказка:</strong> вводите метки через <b>;</b>
     </v-alert>
 
+    <form>
+      <v-table class="my-table">
+        <thead>
+          <tr>
+            <th style="width: 24%;">Метка</th>
+            <th style="width: 17%;">Тип</th>
+            <th style="width: 25%;">Логин</th>
+            <th style="width: 25%;">Пароль</th>
+            <th style="width: 60px;" class="text-end">Действия</th>
+          </tr>
+        </thead>
 
-    <v-table class="my-table">
-      <thead>
-        <tr>
-          <th style="width: 24%;">Метка</th>
-          <th style="width: 17%;">Тип</th>
-          <th style="width: 25%;">Логин</th>
-          <th style="width: 25%;">Пароль</th>
-          <th style="width: 60px;" class="text-end">Действия</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <AccountTableRow
-          v-for="acc in tableItems"
-          :key="acc.id"
-          :account="acc"
-          @remove="store.removeAccount"
-        />
-      </tbody>
-    </v-table>
+        <tbody>
+          <AccountTableRow
+            v-for="acc in tableItems"
+            :key="acc.id"
+            :account="acc"
+            @remove="store.removeAccount"
+            @updateAccount="store.updateAccount"
+          />
+        </tbody>
+      </v-table>
+    </form>
   </v-card>
 </v-container>
 </template>
