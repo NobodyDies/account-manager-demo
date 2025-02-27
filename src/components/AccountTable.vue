@@ -5,8 +5,7 @@
       <h1 class="text-h5">
         Управление учётными записями
       </h1>
-      <v-btn icon color="primary">
-        <v-icon>mdi-plus</v-icon>
+      <v-btn icon="mdi-plus" color="primary" @click="onAddAccount">
       </v-btn>
     </div>
 
@@ -36,6 +35,7 @@
           v-for="acc in tableItems"
           :key="acc.id"
           :account="acc"
+          @remove="store.removeAccount"
         />
       </tbody>
     </v-table>
@@ -44,15 +44,27 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import AccountTableRow from './AccountTableRow.vue';
+import { type Account, type LabelItem, useAccountStore } from '@/store/accountStore.ts';
+
+const store = useAccountStore()
+
+onMounted(() => {
+  store.initFromStorage()
+})
 
 const tableItems = computed(() => {
-  return [
-    { id: 1, labelString: 'LDAP', type: 'LDAP', login: 'admin', password: '' },
-    { id: 2, labelString: 'Локальная', type: 'Локальная', login: 'user', password: '123456' },
-  ]
+  return store.accounts.map((acc: Account) => ({
+    ...acc,
+    labelString: acc.labels.map((l: LabelItem) => l.text).join(';')
+  }))
 })
+
+function onAddAccount() {
+  store.addAccount()
+}
+
 </script>
 
 

@@ -3,5 +3,5 @@
 </template>
 
 <script setup lang="ts">
-import AccountTable from './components/AccountTable.vue'
+import AccountTable from '@/components/AccountTable.vue'
 </script>

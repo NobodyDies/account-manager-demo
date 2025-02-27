@@ -71,7 +71,7 @@
     </div>
   </td>
   <td class="cell-td text-end">
-    <v-btn icon="mdi-delete" color="error" density="comfortable"/>
+    <v-btn icon="mdi-delete" color="error" density="comfortable" @click="onRemove"/>
   </td>
 </tr>
 </template>
@@ -91,7 +91,13 @@ const props = defineProps<{
   account: Account
 }>();
 
+const emits = defineEmits(['remove'])
+
 const localAccount = ref({ ...props.account });
+
+function onRemove() {
+  emits('remove', localAccount.value.id)
+}
 </script>
 
 <style scoped>
